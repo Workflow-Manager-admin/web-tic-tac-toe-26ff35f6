@@ -1,104 +1,199 @@
-/* CSS Variables for Theme Management */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --primary: #1976d2;
+  --accent: #e53935;
+  --secondary: #fff176;
+  --ttt-bg: #fcfcfc;
+  --ttt-board-bg: #f8f9fa;
+  --ttt-border: #e1e2e7;
+  --ttt-x: var(--primary);
+  --ttt-o: var(--accent);
+  --ttt-score-bg: #f5f8fa;
+  --ttt-status-bg: #fff;
+  --ttt-pill-bg: var(--secondary);
+  --ttt-pill-text: #564d00;
+  --ttt-btn-primary-bg: var(--primary);
+  --ttt-btn-primary-text: #fff;
+  --ttt-footer: #dadada;
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
-}
-
-.App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+.ttt-app {
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background: var(--ttt-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+.ttt-status-score {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 1.5rem;
+  margin-top: 40px;
+  gap: 0.4rem;
+}
+
+.ttt-score {
+  display: flex;
+  gap: 0.7rem;
+  font-size: 1.2rem;
+  background: var(--ttt-score-bg);
+  border-radius: 13px;
+  padding: 0.2rem 1.2rem;
+  border: 1px solid var(--ttt-border);
+  margin-bottom: 0.2rem;
+}
+
+.ttt-x-score { color: var(--ttt-x); font-weight: bold; }
+.ttt-o-score { color: var(--ttt-o); font-weight: bold; }
+
+.ttt-status {
+  background: var(--ttt-status-bg);
+  padding: 0.27rem 1.1rem;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  color: #2d3436;
+  border: 1px solid var(--ttt-border);
+  min-width: 8.5rem;
+  text-align: center;
+  box-shadow: 0 2px 13px 0 rgba(25, 118, 210, 0.03);
+}
+
+/* Game board styles */
+.ttt-board {
+  background: var(--ttt-board-bg);
+  border-radius: 16px;
+  box-shadow: 0 3px 19px 0 rgba(25, 118, 210, 0.05);
+  border: 2px solid var(--ttt-border);
+  display: grid;
+  grid-template-columns: repeat(3, 64px);
+  grid-template-rows: repeat(3, 64px);
+  gap: 0;
+  margin: 0.4rem 0 1.2rem 0;
+}
+
+.ttt-square {
+  outline: none;
+  border: 1.5px solid var(--ttt-border);
+  border-radius: 0;
+  font-size: 2.2rem;
+  background: transparent;
+  color: var(--ttt-x);
+  display: flex;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
-}
-
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
-}
-
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.13s;
+  height: 64px;
+  width: 64px;
+  user-select: none;
+  position: relative;
+}
+.ttt-board .ttt-square:nth-child(3n) { border-right: 0; }
+.ttt-board .ttt-square:nth-child(n+7) { border-bottom: 0; }
+.ttt-board .ttt-square:nth-child(-n+3) { border-top: 0; }
+.ttt-board .ttt-square:nth-child(3n-2) { border-left: 0; }
+
+.ttt-square.highlight {
+  background: var(--secondary);
+  animation: ttt-hl 0.34s;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+.ttt-square:hover:enabled {
+  background: #ebf1fc;
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+.ttt-square:disabled {
+  cursor: default;
+  background: #f8f9fa;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.ttt-square:nth-child(3n-1) { /* O player squares for color (pattern usage) */
+  color: var(--ttt-o);
+}
+.ttt-square:after {
+  display: none;
+}
+
+/* X and O coloring */
+.ttt-square {
+  color: var(--ttt-x);
+}
+.ttt-square:contains("O"), .ttt-o-score {
+  color: var(--ttt-o);
+}
+
+/* Controls & Button */
+.ttt-controls {
+  margin-top: 9px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.ttt-btn {
+  border: none;
+  outline: none;
+  padding: 0.6rem 2.1rem;
+  border-radius: 12px;
+  font-size: 1.09rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  margin-right: 2px;
+}
+
+.ttt-btn-primary {
+  background: var(--ttt-btn-primary-bg);
+  color: var(--ttt-btn-primary-text);
+  box-shadow: 0 1px 7px 0 rgba(25, 118, 210, 0.08);
+}
+.ttt-btn-primary:hover, .ttt-btn-primary:focus {
+  background: #1059a7;
+  color: #fff;
+}
+
+.ttt-mode-pill {
+  display: inline-block;
+  padding: 0.33rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: var(--ttt-pill-bg);
+  color: var(--ttt-pill-text);
+  box-shadow: 0 1px 9px 0 rgba(255, 162, 23, 0.14);
+  border: none;
+  letter-spacing: 0.05em;
+}
+
+.ttt-footer {
+  margin-top: 2.1rem;
+  color: var(--ttt-footer);
+  font-size: 0.91rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  padding-bottom: 24px;
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+  .ttt-board {
+    grid-template-columns: repeat(3, 44px);
+    grid-template-rows: repeat(3, 44px);
   }
-  to {
-    transform: rotate(360deg);
+  .ttt-square {
+    font-size: 1.56rem;
+    height: 44px;
+    width: 44px;
   }
+  .ttt-status-score { margin-top: 25px; }
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
-  }
+/* Minimalistic highlight effect */
+@keyframes ttt-hl {
+  0% { background: #fffbe8; }
+  100% { background: var(--secondary); }
 }
